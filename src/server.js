@@ -1,15 +1,20 @@
 import sirv from 'sirv';
 import polka from 'polka';
 import compression from 'compression';
+import * as sapper from '@sapper/server';
 import bodyParser from 'body-parser';
 import session from 'express-session';
 import sessionFileStore from 'session-file-store';
-import * as sapper from '@sapper/server';
 import 'dotenv/config';
 
 const { PORT, NODE_ENV, NOW, SESSION_SECRET } = process.env;
 const dev = NODE_ENV === 'development';
 const FileStore = sessionFileStore(session);
+
+function logger(req, res, next) {
+    console.log(`~> Received ${req.method} on ${req.url}`);
+    next();
+}
 
 function protect(req, res, next) {
 
@@ -35,8 +40,8 @@ function protect(req, res, next) {
     next();
 }
 
-
 polka()
+    //.use(logger)
 	.use(bodyParser.json())
 	.use(session({
 		secret: SESSION_SECRET,
@@ -53,6 +58,6 @@ polka()
             session: req => ({ user: req.session && req.session.user })
         })
 	)
-	.listen(PORT, err => {
+    .listen(PORT, err => {
 		if (err) console.log('error', err);
 	});

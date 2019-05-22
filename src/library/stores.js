@@ -23,7 +23,6 @@ function createAuth() {
 	const { subscribe, set, update } = writable();
 
     async function login(credentials) {
-
         const user = await post('auth/login', credentials);
 
         set({user});

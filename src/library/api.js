@@ -1,4 +1,4 @@
-const base = 'https://auth.kode.site';
+const base = 'http://localhost:5000';
 
 function query(params) {
 
@@ -15,7 +15,7 @@ async function send({ method, path, data, token }) {
 
 	if (data) {
 		opts.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-		opts.body = query(data)
+        opts.body = query(data)
 	}
 
 	if (token) {
@@ -28,7 +28,6 @@ async function send({ method, path, data, token }) {
     try {
         return JSON.parse(res);
     }
-
     catch(e) {
         return req;
     }
@@ -43,7 +42,7 @@ export function del(path, token) {
 }
 
 export function post(path, data, token) {
-	return send({ method: 'POST', path, data, token });
+    return send({ method: 'POST', path, data, token });
 }
 
 export function put(path, data, token) {

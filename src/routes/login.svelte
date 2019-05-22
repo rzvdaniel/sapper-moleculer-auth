@@ -22,21 +22,20 @@
 
     const { session } = stores();
 
-    let username;
-    let password;
+    let username = 'rzvdaniel@gmail.com';
+    let password = '$Daniel1';
     let error = false;
 
     async function submit(event) {
 
         const response = await auth.login({ username, password });
 
-        if (response.username === username) {
+        if (response.email === username) {
 
             $session.user = response;
 
             goto('/');
         }
-
         else {
             error = response.message;
         }
